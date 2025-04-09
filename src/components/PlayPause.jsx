@@ -9,7 +9,7 @@ const PlayPause = ({
 }) => {
   return (
     <>
-      {isPlaying && activeSong?.title === song.title ? (
+      {isPlaying && activeSong?.name === song.name ? (
         <FaPauseCircle
           size={35}
           className="text-gray-300"
