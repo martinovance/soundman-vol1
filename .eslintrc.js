@@ -12,7 +12,22 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["react"],
+  settings: {
+    "import/resolver": {
+      node: {
+        paths: ["node_modules"],
+        extensions: [".js", ".jsx", ".css"],
+        moduleDirectory: ["node_modules", "src/"],
+      },
+    },
+  },
   rules: {
+    "import/no-unresolved": [
+      "error",
+      {
+        ignore: ["^swiper/css", "^swiper/swiper", "^swiper/components"],
+      },
+    ],
     quotes: "off",
     "arrow-body-style": "off",
     "max-len": 0,
