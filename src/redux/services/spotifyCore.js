@@ -19,11 +19,26 @@ export const spotifyCoreApi = createApi({
           limit: "20",
           seed_tracks: "0c6xIDDpzE81m2q797ordA",
           seed_artists: "4NHQUGzhtTLFvgF5SZesLK",
-          seed_genres: "classical,country", // no space between genres
+          seed_genres: "classical,country",
         },
+      }),
+    }),
+    getSongLyrics: builder.query({
+      query: ({ songid }) => ({
+        url: "/track_lyrics/",
+        params: { id: songid },
+      }),
+    }),
+    getTracks: builder.query({
+      query: ({ trackid }) => ({
+        url: `/recommendations?track_id=${trackid}`,
       }),
     }),
   }),
 });
 
-export const { useGetReconmmendedTracksQuery } = spotifyCoreApi;
+export const {
+  useGetReconmmendedTracksQuery,
+  useGetSongLyricsQuery,
+  useGetTracksQuery,
+} = spotifyCoreApi;

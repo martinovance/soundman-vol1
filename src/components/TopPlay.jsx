@@ -17,20 +17,23 @@ const TopChartCard = ({
   handlePauseClick,
   handlePlayClick,
 }) => (
-  <div className="w-full flex flex-row items-center hover:bg-[#4c426e] py-2 p-4 rounded-lg cursor-pointer mb-2">
+  <div
+    className="w-full flex flex-row items-center hover:bg-[#4c426e] py-2 p-4
+  rounded-lg cursor-pointer mb-2"
+  >
     <h3 className="font-bold text-base text-white mr-3">{i + 1}</h3>
-    <div className="flex-1 flex flex-row justify-between items-center">
+    <div className="flex-1 flex flex-row justify-between items-center truncate mr-5">
       <img
         className="w-20 h-20 rounded-lg"
         src={song?.album?.images[0]?.url}
         alt={song?.name}
       />
-      <div className="flex-1 flex flex-col justify-center mx-3">
-        <Link to={`/artists/${song.key}`}>
-          <p className="text-xl font-bold text-white">{song?.name}</p>
+      <div className="flex-1 flex flex-col justify-center mx-3 truncate">
+        <Link to={`/songs/${song.id}`} state={{ song }}>
+          <p className="text-lg font-semibold text-white ">{song?.name}</p>
         </Link>
-        <Link to={`/artists/${song.artists[0]?.id}`}>
-          <p className="text-base text-gray-300 mt-1">
+        <Link to={`/artists/${song?.artists[0]?.id}`}>
+          <p className="text-base text-gray-300 mt-1 truncate">
             {song?.artists[0]?.name}
           </p>
         </Link>
@@ -84,13 +87,13 @@ const TopPlay = () => {
         <div className="mt-4 flex flex-col gap-1">
           {topPlays?.map((song, i) => (
             <TopChartCard
-              key={song.key}
+              key={i}
               song={song}
               i={i}
               isPlaying={isPlaying}
               activeSong={activeSong}
-              handlePause={handlePauseClick}
-              handlePlay={handlePlayClick}
+              handlePauseClick={handlePauseClick}
+              handlePlayClick={() => handlePlayClick(song, i)}
             />
           ))}
         </div>
@@ -113,9 +116,9 @@ const TopPlay = () => {
           modules={[FreeMode]}
           className="mt-4"
         >
-          {topPlays?.map((song) => (
+          {topPlays?.map((song, i) => (
             <SwiperSlide
-              key={song?.key}
+              key={i}
               style={{ width: "25%", height: "auto" }}
               className="shadow-lg rounded-full
                 animate-slideright"
