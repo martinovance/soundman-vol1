@@ -29,9 +29,9 @@ export const spotifyCoreApi = createApi({
         params: { id: songid },
       }),
     }),
-    getTracks: builder.query({
-      query: ({ trackid }) => ({
-        url: `/recommendations?track_id=${trackid}`,
+    getPlaylists: builder.query({
+      query: () => ({
+        url: `/playlist_tracks/?id=${"37i9dQZF1DX4Wsb4d7NKfP"}`,
       }),
     }),
   }),
@@ -40,5 +40,5 @@ export const spotifyCoreApi = createApi({
 export const {
   useGetReconmmendedTracksQuery,
   useGetSongLyricsQuery,
-  useGetTracksQuery,
+  useGetPlaylistsQuery,
 } = spotifyCoreApi;

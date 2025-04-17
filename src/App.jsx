@@ -36,7 +36,7 @@ const App = () => {
               <Route path="/search/:searchTerm" element={<Search />} />
             </Routes>
           </div>
-          <div className="min-h-fit relative top-0">
+          <div className="w-[40%] min-h-fit relative top-0">
             <TopPlay />
           </div>
         </div>

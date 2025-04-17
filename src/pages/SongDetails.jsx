@@ -1,13 +1,44 @@
 import { useLocation, useParams } from "react-router-dom";
-import { useGetSongLyricsQuery } from "../redux/services/spotifyCore";
-import { DetailsHeader } from "../components";
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  useGetPlaylistsQuery,
+  useGetSongLyricsQuery,
+} from "../redux/services/spotifyCore";
+import { DetailsHeader, Error, Loader, RelatedSongs } from "../components";
+import { playPause, setActiveSong } from "../redux/features/playerSlice";
 
 const SongDetails = () => {
+  const dispatch = useDispatch();
+  const { activeSong, isPlaying } = useSelector((state) => state.player);
   const { songid } = useParams();
-  const { data: songData } = useGetSongLyricsQuery({ songid });
-
+  const {
+    data: songData,
+    isFectching: isFetchingSongDetails,
+    error: detailsError,
+  } = useGetSongLyricsQuery({ songid });
   const location = useLocation();
   const artistData = location.state?.song || null;
+  const {
+    data,
+    isFetching: isFetchingPlaylists,
+    error,
+  } = useGetPlaylistsQuery();
+
+  if (isFetchingSongDetails || isFetchingPlaylists) {
+    return <Loader title="Fetching song details" />;
+  }
+
+  if (error || detailsError) return <Error />;
+
+  const handlePauseClick = () => {
+    dispatch(playPause(false));
+  };
+
+  const handlePlayClick = (song, i) => {
+    dispatch(setActiveSong({ song, data, i }));
+    dispatch(playPause(true));
+  };
 
   return (
     <div className="flex flex-col">
@@ -27,6 +58,14 @@ const SongDetails = () => {
           )}
         </div>
       </div>
+
+      <RelatedSongs
+        data={data}
+        isPlaying={isPlaying}
+        activeSong={activeSong}
+        handlePauseClick={handlePauseClick}
+        handlePlayClick={handlePlayClick}
+      />
     </div>
   );
 };
